@@ -2,6 +2,7 @@ package com.example.demo.customer.controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ import com.example.demo.driver.service.DriverService;
 import com.example.demo.image.model.Image;
 import com.example.demo.location.model.Location;
 import com.example.demo.location.service.LocationService;
+import com.example.demo.rate.dao.RateRepository;
+import com.example.demo.rate.model.Rating;
 import com.example.demo.trip.model.TripBooking;
 import com.example.demo.trip.service.TripService;
 import com.example.demo.utils.MyUtils;
@@ -49,6 +52,9 @@ public class CustomerController {
 	
 	@Autowired
 	private TripService tripService;
+	
+	@Autowired
+	private RateRepository rateRepository;
 	
 	
 //	@GetMapping("/test")
@@ -218,6 +224,63 @@ public class CustomerController {
 		model.addAttribute("list",list);
 		return "customer/history_trip";
 	}
+	
+	@GetMapping("/viewallcustomer")
+	private String customers(Model model) {
+		List<Customer> customers=customerService.viewCustomers();
+//		for(Customer customer: customers) {
+//			List<TripBooking> trips=tripService.viewAllTripCustomer(customer.getCustomerId());
+//			customer.setTrips(trips);
+//		}
+		HashMap<Integer,Float> map=new HashMap<Integer, Float>();
+		for(Customer customer: customers) {
+			
+			System.out.println(customer+" "+customer.getTrips().size());
+			float total=0;
+			for(TripBooking trip:customer.getTrips()) {
+				total+=trip.getBill();
+			}
+			map.put(customer.getCustomerId(),total);
+		}
+		model.addAttribute("list1",customers);
+		model.addAttribute("list2",map);
+		
+		return "customer/customers";
+	}
+	
+	@GetMapping("/feedback/{id}")
+	private String getRatePage(@PathVariable int id,Model model) {
+		TripBooking trip=tripService.viewTrip(id);
+		Driver driver=trip.getDriver();
+		Customer customer=trip.getCustomer();
+		model.addAttribute("driver",driver);
+		model.addAttribute("customer",customer);
+		model.addAttribute("tripid",id);
+		return "customer/feedback";
+	}
+	
+	@PostMapping("/rateprocess")
+	private String rate(@RequestParam("driverid") Integer driverId,
+			@RequestParam("customername") String commentUser,
+			@RequestParam("tripid") Integer tripId,
+			@RequestParam("rate") Float rate,
+			@RequestParam("msg") String msg
+			) {
+		Rating rate1=new Rating();
+		rate1.setRatingNo(rate);
+		rate1.setComment(msg);
+		rate1.setCommentUser(commentUser);
+		rate1.setDriverR(driverService.viewDriver(driverId));
+		rateRepository.save(rate1);
+		TripBooking trip=tripService.viewTrip(tripId);
+		trip.setRated(true);
+		tripService.insertTripBooking(trip);
+		
+		return null;
+	}
+	
+	
+	
 	
 	
 	

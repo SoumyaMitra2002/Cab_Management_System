@@ -70,18 +70,6 @@ public class Customer extends AbsractUser {
 	public String toString() {
 		return "Customer [customerId=" + customerId + ", image=" + image + "]";
 	}
-
-	
-	
-	
-	
-	
-
-	
-	
-	
-	
-
 	
 	
 }

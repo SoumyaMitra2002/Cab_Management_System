@@ -145,7 +145,7 @@ Driver driver=(Driver)request.getAttribute("driverOne");
     <div class="box special">
         <span class="box-header">Rating </span>
         <h3 class="box-content"
-            style="font-family: 'Times New Roman', Times, serif;">9.7</h3>
+            style="font-family: 'Times New Roman', Times, serif;"><%= driver.getRating() %></h3>
     </div>
 
     <!-- <h3 style="font-family: 'Times New Roman', Times, serif;">Employee Id: 377357 </h3>

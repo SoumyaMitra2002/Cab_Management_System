@@ -5,6 +5,7 @@ import java.util.List;
 import com.example.demo.abstrct.model.AbsractUser;
 import com.example.demo.cab.model.Cab;
 import com.example.demo.image.model.Image;
+import com.example.demo.rate.model.Rating;
 import com.example.demo.trip.model.TripBooking;
 
 import jakarta.persistence.CascadeType;
@@ -14,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Transient;
 
 @Entity
 public class Driver extends AbsractUser{
@@ -22,6 +24,7 @@ public class Driver extends AbsractUser{
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer driverId;
 	private String licenceNo;
+	@Transient
 	private float rating;
 	
 	@OneToOne(cascade = CascadeType.ALL)
@@ -33,6 +36,8 @@ public class Driver extends AbsractUser{
 	@OneToOne(cascade = CascadeType.ALL)
 	private Image image;
 	
+	@OneToMany(mappedBy = "driverR",cascade = CascadeType.ALL)
+	private List<Rating> rates;
 	public Image getImage() {
 		return image;
 	}
@@ -67,11 +72,13 @@ public class Driver extends AbsractUser{
 	}
 
 	public float getRating() {
-		return rating;
-	}
-
-	public void setRating(float rating) {
-		this.rating = rating;
+		int num=this.rates.size();
+		float total=0;
+		for(Rating r: this.rates) {
+			total+=r.getRatingNo();
+		}
+		float result=(total*10)/(num*10);
+		return result;
 	}
 
 	public Cab getCab() {
@@ -88,6 +95,20 @@ public class Driver extends AbsractUser{
 
 	public void setTripBooking(List<TripBooking> tripBooking) {
 		this.tripBooking = tripBooking;
+	}
+
+	public List<Rating> getRates() {
+		return rates;
+	}
+
+	public void setRates(List<Rating> rates) {
+		this.rates = rates;
+	}
+
+	@Override
+	public String toString() {
+		return "Driver [driverId=" + driverId + ", licenceNo=" + licenceNo + ", rating=" + rating + ", cab=" + cab
+				+ ", tripBooking=" + tripBooking + ", image=" + image + ", rates=" + rates + "]";
 	}
 	
 	

@@ -584,7 +584,7 @@
                         <span class="link-name">Manage Cabs</span>
                     </a></li>
 
-                <li><a href="alltask">
+                <li><a href="/customer/viewallcustomer">
                         <i class="uil uil-message"></i>
                         <span class="link-name" ">Manage Customers</span>
             </a></li>

@@ -42,7 +42,7 @@ public class DriverServiceImpl implements DriverService{
 	public List<Driver> viewBestDriver() {
 		
 		List<Driver> res=this.driverRepository.findAll();
-        res.sort((o1, o2) -> Float.compare(o2.getRating(), o1.getRating()));
+//        res.sort((o1, o2) -> Float.compare(o2.getRating(), o1.getRating()));
         
         return res;
 

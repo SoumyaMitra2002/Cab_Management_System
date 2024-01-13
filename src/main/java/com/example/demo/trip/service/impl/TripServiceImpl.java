@@ -65,4 +65,18 @@ public class TripServiceImpl implements TripService{
 		return tripRepository.findAll();
 	}
 
+	@Override
+	public TripBooking viewTrip(Integer tripId) {
+		
+		Optional<TripBooking> tripBooking=tripRepository.findById(tripId);
+		if(tripBooking.isPresent()) {
+			TripBooking trip=tripBooking.get();
+			return trip;
+		}
+		else {
+			return null;
+		}
+		
+	}
+
 }

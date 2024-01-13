@@ -140,13 +140,7 @@
     </nav>
     
  
- <div class="container text-center" style="width: 800px; margin-top: 5px;">
-
-      <div class="alert" role="alert" id="myAlert" style="background-color:#E1D51E; color:black ;">
-				 Updated Successfully!!
-    </div>
-
- </div>   
+ 
 
 <%
 	List<TripBooking> listf=(List<TripBooking>)request.getAttribute("list");
@@ -174,12 +168,19 @@
                     <td><%= l.getFromDateTime() %></td>
                     <td><%= l.getToDateTime() %></td>
                     <td><%= l.getBill() %></td>
+                    <%if(!(l.isRated())) {
+                    	
+                    
+                    %>
                     <td>
-                      <a href="#" class="btn btn-danger">
+                      <a href="<%= request.getContextPath() %>/customer/feedback/<%= l.getTripBookingId() %>" class="btn btn-danger">
                           <i class="bi-pencil-square"></i> Rate
                       </a>
               
                   </td>
+                  <%
+                    }
+                  %>
                 </tr>
 <%
             }
@@ -247,32 +248,7 @@
     </div>
 
     <!-- Script for handling modal and other functionalities -->
-    <script>
-    $(document).ready(function () {
-        // Set the current delete button ID when clicking on the delete button in the modal
-        $('#exampleModalLong').on('show.bs.modal', function (event) {
-          var button = $(event.relatedTarget);
-          var deleteButtonId = button.attr('id');
-          $('#deleteButton').data('deleteButtonId', deleteButtonId);
-        });
-
-        // Handle the delete confirmation
-        $('#deleteButton').on('click', function () {
-          var deleteButtonId = $('#deleteButton').data('deleteButtonId');
-          var deleteButtonHref = $("#" + deleteButtonId).attr("href");
-          window.location.href = deleteButtonHref;
-        });
-      });
-      
-      setTimeout(function () {
-          var alertDiv = document.getElementById('myAlert');
-          alertDiv.style.opacity = 0;
-          setTimeout(function () {
-              alertDiv.style.display = 'none';
-          }, 1000); // Assumes the CSS transition duration is 1s
-      }, 4000);
-
-    </script>
+    
 </body>
 
 </html>

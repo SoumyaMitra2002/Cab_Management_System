@@ -121,6 +121,15 @@ public class TripBooking {
 	public void setRated(boolean rated) {
 		this.rated = rated;
 	}
+
+	@Override
+	public String toString() {
+		return "TripBooking [tripBookingId=" + tripBookingId + ", fromLocation=" + fromLocation + ", toLocation="
+				+ toLocation + ", fromDateTime=" + fromDateTime + ", toDateTime=" + toDateTime + ", bill=" + bill
+				+ ", rated=" + rated + ", customer=" + customer + ", driver=" + driver + "]";
+	}
+	
+	
 	
 	
 	

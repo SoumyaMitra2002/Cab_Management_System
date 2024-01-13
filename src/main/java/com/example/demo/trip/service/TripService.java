@@ -12,5 +12,6 @@ public interface TripService {
 	List<TripBooking> viewAllTripCustomer(Integer customerId);
 	TripBooking calculateBill(Integer tripId);
 	List<TripBooking> viewAllTrips();
+	TripBooking viewTrip(Integer tripId);
 
 }
